@@ -1,4 +1,6 @@
 import pymysql
+import pandas as pd
+from sqlalchemy import create_engine
 
 def truncate_table(db_host, db_user, db_password, db_name, table_name):
     """
@@ -21,16 +23,32 @@ def truncate_table(db_host, db_user, db_password, db_name, table_name):
         password=db_password,
         database=db_name
     )
+    with connection.cursor() as cursor:
+        # Execute the TRUNCATE TABLE command
+        cursor.execute(f"TRUNCATE TABLE {table_name}")
+        # Commit the changes
+        connection.commit()
+        print(f"Table {table_name} truncated successfully.")
 
-    try:
-        with connection.cursor() as cursor:
-            # Execute the TRUNCATE TABLE command
-            cursor.execute(f"TRUNCATE TABLE {table_name}")
-            # Commit the changes
-            connection.commit()
-            print(f"Table {table_name} truncated successfully.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-    finally:
-        # Close the database connection
-        connection.close()
+    # Close the database connection
+    connection.close()
+
+def upload_df_to_sql(df, table_name, db_url):
+    """
+    Uploads a DataFrame to an SQL database.
+
+    Parameters:
+    df (pd.DataFrame): The DataFrame to upload.
+    table_name (str): The name of the table to upload the DataFrame to.
+    db_url (str): The database URL in the format 'dialect+driver://username:password@host:port/database'.
+
+    Returns:
+    None
+    """
+    engine = create_engine(db_url)
+
+    # Upload the DataFrame to the specified table
+    df_no_header = df.iloc[1:]
+    df_no_header.to_sql(name=table_name, con=engine, if_exists='append', index=False)
+
+    print(f"DataFrame uploaded to {table_name} table.")
