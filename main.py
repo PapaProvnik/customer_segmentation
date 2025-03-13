@@ -4,6 +4,7 @@ import json
 import numpy as np
 
 from data_loaders import truncate_table, upload_df_to_sql
+import segmentation
 
 with open("db_credentials.json", "r") as file:
     cred = json.load(file)
