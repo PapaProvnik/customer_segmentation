@@ -1,9 +1,9 @@
 import pandas as pd
 import os
 import json
+import numpy as np
 
 from data_loaders import truncate_table, upload_df_to_sql
-import segmentation
 
 with open("db_credentials.json", "r") as file:
     cred = json.load(file)
@@ -24,6 +24,23 @@ def data_normalisation():
             file_path = os.path.join(DATA, file)
             df_test = pd.read_csv(file_path)
             print(f"Loaded {file}")
+
+            #filling in NULL values
+            df_test['Age'].fillna(df_test['Age'].mean(), inplace=True)
+            df_test['Work_Experience'].fillna(df_test['Work_Experience'].mean(), inplace=True)
+            df_test['Family_Size'].fillna(df_test['Family_Size'].mean(), inplace=True)
+
+            # Mode imputation for categorical columns
+            df_test['Gender'].fillna(df_test['Gender'].mode()[0], inplace=True)
+            df_test['Ever_Married'].fillna(df_test['Ever_Married'].mode()[0], inplace=True)
+            df_test['Graduated'].fillna(df_test['Graduated'].mode()[0], inplace=True)
+            df_test['Profession'].fillna(df_test['Profession'].mode()[0], inplace=True)
+            df_test['Var_1'].fillna(df_test['Var_1'].mode()[0], inplace=True)
+
+            #rounding replaced values
+            df_test["Family_Size"] = np.ceil(df_test["Family_Size"])
+
+            df_test.to_csv(os.path.join(DATA, "df_test_no_nulls.csv"))
 
             #Mapping numerical values to text fields
             df_test["Gender"] = df_test["Gender"].map({"Male" : 0, "Female" : 1})

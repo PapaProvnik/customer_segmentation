@@ -1,3 +1,4 @@
 db_credentials.json
 /__pycache__
 customer_segmentation_data/df_test_normalised.csv
+customer_segmentation_data/df_test_no_nulls.csv
