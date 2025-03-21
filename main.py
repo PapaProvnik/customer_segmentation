@@ -4,7 +4,6 @@ import json
 import numpy as np
 
 from data_loaders import truncate_table, upload_df_to_sql
-import segmentation
 
 with open("db_credentials.json", "r") as file:
     cred = json.load(file)
@@ -50,7 +49,7 @@ def data_normalisation():
             df_test = pd.get_dummies(df_test, columns=["Profession", "Spending_Score"], dtype=int)
 
             print(df_test.head())
-            df_test.to_csv(os.path.join(DATA, "df_test_normalised.csv"))
+            df_test.to_csv(os.path.join(DATA, "df_test_normalised.csv"), index=False)
 
 def customer_segmentation(df):
     pass

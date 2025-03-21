@@ -13,7 +13,7 @@ df = pd.read_csv("customer_segmentation_data/df_test_normalised.csv")
 
 # Drop unnecessary columns (ID, names, etc.)
 if 'ID' in df.columns:
-    df = df.drop(columns=['ID'])
+    df = df.drop(columns=['ID', "Var_1"])
 
 # Check correlation matrix to remove redundant features
 plt.figure(figsize=(12, 6))
