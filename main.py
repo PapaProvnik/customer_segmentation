@@ -47,6 +47,8 @@ def data_normalisation():
             df_test["Ever_Married"] = df_test["Ever_Married"].map({"No" : 0, "Yes" : 1})
             df_test["Graduated"] = df_test["Graduated"].map({"No" : 0, "Yes" : 1})
             df_test = pd.get_dummies(df_test, columns=["Profession", "Spending_Score"], dtype=int)
+            
+            df_test = df_test.drop("Var_1", axis=1)
 
             print(df_test.head())
             df_test.to_csv(os.path.join(DATA, "df_test_normalised.csv"), index=False)
