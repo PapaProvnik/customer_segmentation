@@ -115,6 +115,9 @@ def a_b():
     kmeans = KMeans(n_clusters=optimal_k, random_state=42, n_init=10)
     df['Cluster'] = kmeans.fit_predict(X_scaled)
 
+    biggest_cluster = df['Cluster'].mode()[0]
+    print(f"Biggest cluster is cluster {biggest_cluster}")
+
     # Visualizing clusters
     plt.figure(figsize=(10, 6))
     sns.scatterplot(x=df['Age'], y=df['Ever_Married'], hue=df['Cluster'], palette='viridis', s=100)
