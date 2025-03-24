@@ -91,4 +91,37 @@ def a_f_w_ss(): #DO NOT USE - ABSOLUTE ASS
     plt.title(f'K-Means Clustering (K={optimal_k})')
     plt.show()
 
-a_f()
+def a_b():
+    # This is segment by clarifying 3 clusters by age and ever married.
+    kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+    df['Cluster'] = kmeans.fit_predict(df[['Age', 'Ever_Married']])
+
+    plt.figure(figsize=(10, 6))
+    sns.scatterplot(data=df, x='Age', y='Ever_Married',
+                    hue='Cluster', palette='viridis')
+    plt.title('Customer Segments')
+    plt.show()
+
+    features = ['Age', 'Ever_Married']  # Adjust based on your dataset
+    X = df[features]
+
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    # based on elbow method
+    optimal_k = 4  # Change this based on the Elbow Method graph
+
+    # 6. Applying K-Means with chosen K
+    kmeans = KMeans(n_clusters=optimal_k, random_state=42, n_init=10)
+    df['Cluster'] = kmeans.fit_predict(X_scaled)
+
+    # Visualizing clusters
+    plt.figure(figsize=(10, 6))
+    sns.scatterplot(x=df['Age'], y=df['Ever_Married'], hue=df['Cluster'], palette='viridis', s=100)
+    plt.title(f'K-Means Clustering (K={optimal_k})')
+    plt.xlabel('Age')
+    plt.ylabel('Ever_Married')
+    plt.legend(title='Cluster')
+    plt.show()
+
+a_b()
