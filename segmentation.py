@@ -61,6 +61,9 @@ def a_f():
     plt.legend(title='Cluster')
     plt.show()
 
+def a_em():
+    pass
+
 def a_f_w_ss(): #DO NOT USE - ABSOLUTE ASS
     features = ['Age', 'Family_Size', 'Work_Experience', 'Spending_Score_Average', 'Spending_Score_High', 'Spending_Score_Low']
     X = df[features]
@@ -88,4 +91,4 @@ def a_f_w_ss(): #DO NOT USE - ABSOLUTE ASS
     plt.title(f'K-Means Clustering (K={optimal_k})')
     plt.show()
 
-a_f_w_ss()
+a_f()
