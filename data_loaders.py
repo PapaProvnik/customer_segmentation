@@ -49,6 +49,6 @@ def upload_df_to_sql(df, table_name, db_url):
 
     # Upload the DataFrame to the specified table
     df_no_header = df.iloc[1:]
-    df_no_header.to_sql(name=table_name, con=engine, if_exists='append', index=False)
+    df_no_header.to_sql(name=table_name, con=engine, if_exists='replace', index=False)
 
     print(f"DataFrame uploaded to {table_name} table.")
